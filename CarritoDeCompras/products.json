@@ -1,0 +1,74 @@
+[
+  {
+    "id": "p01",
+    "nombre": "Teclado mecánico Aurora 65%",
+    "categoria": "Periféricos",
+    "precio": 289000,
+    "stock": 14,
+    "imagen": "https://picsum.photos/seed/aurora-teclado/600/600",
+    "descripcion": "Teclado mecánico compacto formato 65%, switches intercambiables en caliente y retroiluminación RGB por tecla."
+  },
+  {
+    "id": "p02",
+    "nombre": "Mouse ergonómico Nimbus",
+    "categoria": "Periféricos",
+    "precio": 129000,
+    "stock": 27,
+    "imagen": "https://picsum.photos/seed/nimbus-mouse/600/600",
+    "descripcion": "Mouse inalámbrico de baja latencia con sensor óptico de 26000 DPI y batería de 70 horas."
+  },
+  {
+    "id": "p03",
+    "nombre": "Monitor UltraWide Horizon 34\"",
+    "categoria": "Pantallas",
+    "precio": 1750000,
+    "stock": 6,
+    "imagen": "https://picsum.photos/seed/horizon-monitor/600/600",
+    "descripcion": "Panel IPS curvo 21:9, 144Hz, calibrado de fábrica para diseño y desarrollo."
+  },
+  {
+    "id": "p04",
+    "nombre": "Audífonos Halo ANC",
+    "categoria": "Audio",
+    "precio": 459000,
+    "stock": 19,
+    "imagen": "https://picsum.photos/seed/halo-audifonos/600/600",
+    "descripcion": "Cancelación activa de ruido, 32 horas de batería y modo transparencia adaptativo."
+  },
+  {
+    "id": "p05",
+    "nombre": "Webcam Lucent 4K",
+    "categoria": "Video",
+    "precio": 349000,
+    "stock": 11,
+    "imagen": "https://picsum.photos/seed/lucent-webcam/600/600",
+    "descripcion": "Grabación 4K a 30fps, enfoque automático y corrección de luz en tiempo real."
+  },
+  {
+    "id": "p06",
+    "nombre": "Hub USB-C Nexus 8-en-1",
+    "categoria": "Conectividad",
+    "precio": 219000,
+    "stock": 32,
+    "imagen": "https://picsum.photos/seed/nexus-hub/600/600",
+    "descripcion": "HDMI 4K, lector SD/microSD, 3 puertos USB 3.0 y carga PD de hasta 100W."
+  },
+  {
+    "id": "p07",
+    "nombre": "Silla ergonómica Meridian",
+    "categoria": "Mobiliario",
+    "precio": 1290000,
+    "stock": 4,
+    "imagen": "https://picsum.photos/seed/meridian-silla/600/600",
+    "descripcion": "Soporte lumbar ajustable, reposabrazos 4D y malla transpirable de alta densidad."
+  },
+  {
+    "id": "p08",
+    "nombre": "Micrófono condensador Vega",
+    "categoria": "Audio",
+    "precio": 389000,
+    "stock": 9,
+    "imagen": "https://picsum.photos/seed/vega-microfono/600/600",
+    "descripcion": "Patrón cardioide, filtro pop integrado y salida de auriculares con monitoreo cero-latencia."
+  }
+]
