@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedra Papel O Tijeras</title>
+</head>
+<body>
+    
+    <head>
+    <style>
+        #contenedor-imagenes {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        #contenedor-imagenes img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border: 2px solid #f180c4;
+            padding: 5px;
+            border-radius: 10px;
+            background-color: pink;
+        }
+        .vs-texto {
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        body {
+            font-family: arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Piedra Papel o Tijera</h1>
+    <select id="Seleccionar">
+        <option value="">Seleccione una opción...</option>
+    </select>
+    <h4 id="aleatorio"></h4>
+    <p id="Resultado"></p>
+    <button id="btn">Juega</button>
+    <div id="contenedor-imagenes"></div>
+    </body>
+    <script>
+        let opciones = ["Piedra", "Papel", "Tijera"];
+        let select = document.getElementById("Seleccionar");
+        let boton = document.getElementById("btn");
+        let conteImg = document.getElementById("contenedor-imagenes")
+
+        let imagenes = {
+            Piedra: 'piedra.png',
+            Papel: 'papel.jpg',
+            Tijera: 'tijeras.png'
+        }
+    console.log(imagenes)
+        for (const op in opciones) {
+            select.innerHTML += `<option value="${opciones[op]}">${opciones[op]}</option>`;
+        }
+
+        boton.addEventListener("click", () => {
+            let valorOpcion = select.value;
+
+            if (valorOpcion === "") {
+                document.getElementById("Resultado").innerHTML = "Por favor, selecciona una opción.";
+                document.getElementById("aleatorio").innerHTML = "";
+                conteImg.innerHTML = "";
+                return;
+            }
+            let numeroRandom = Math.floor(Math.random() * 3);
+            let opcionCompu = opciones[numeroRandom];
+
+            let imgUsuario = imagenes[valorOpcion];
+            let imgCompu = imagenes[opcionCompu];
+
+            conteImg.innerHTML = `
+                <img src="img/${imgUsuario}" alt="${valorOpcion}">
+                <span class="vs-texto">VS</span>
+                <img src="img/${imgCompu}" alt="${opcionCompu}">`
+
+            document.getElementById("aleatorio").innerHTML = "La compu eligió: " + opcionCompu;
+
+            let mensajeResultado = "";
+            switch (valorOpcion) {
+                case "Piedra":
+                    if ("Papel" === opcionCompu) {
+                        mensajeResultado = "Gano Compu con papel"
+                    } else if ("Tijera" === opcionCompu) {
+                        mensajeResultado = "Gano Usuario con Piedra";
+                    } else {
+                        mensajeResultado = "Empate";
+                    }
+                    break;
+                
+                case "Papel":
+                    if ("Papel" === opcionCompu) {
+                        mensajeResultado = "Empate";
+                    } else if ("Tijera" === opcionCompu) {
+                        mensajeResultado = "Gano Compu con Tijera";
+                    } else {
+                        mensajeResultado = "Gano usuario con papel";
+                    }
+                    break;
+
+                case "Tijera":
+                    if ("Papel" === opcionCompu) {
+                        mensajeResultado = "Gano Usuario con tijera";
+                    } else if ("Tijera" === opcionCompu) {
+                        mensajeResultado = "Empate";
+                    } else {
+                        mensajeResultado = "Gano Compu con Piedra";
+                    }
+                    break;
+                }
+                document.getElementById("Resultado").innerHTML = mensajeResultado;
+        })
+</script>
+</body>
+</html>
