@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambio de Divisas</title>
+
+    <style>
+        :root {
+            --bg: #0e1b2a;
+            --surface: #16293d;
+            --surface-raised: #1c3247;
+            --line: #28425c;
+            --gold: #c9a15a;
+            --gold-dim: #8a744a;
+            --text: #eaedf1;
+            --text-muted: #7e93a7;
+        }
+ 
+        * {
+            box-sizing: border-box;
+        }
+ 
+        html, body {
+            height: 100%;
+        }
+ 
+        body {
+            margin: 0;
+            background: var(--bg);
+            background-image:
+                radial-gradient(ellipse 900px 500px at 50% -10%, rgba(201, 161, 90, 0.08), transparent 60%);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 48px 20px;
+        }
+ 
+        header {
+            text-align: center;
+            max-width: 420px;
+            margin-bottom: 32px;
+        }
+ 
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            font-size: clamp(2rem, 5vw, 2.6rem);
+            letter-spacing: -0.01em;
+            margin: 0 0 10px;
+        }
+ 
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+ 
+        #divisas-container {
+            width: 100%;
+            max-width: 380px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+        }
+ 
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+ 
+        .campo label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+ 
+        select,
+        input {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--text);
+            background: var(--surface-raised);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 12px 14px;
+            width: 100%;
+            transition: border-color 0.15s ease;
+        }
+ 
+        select {
+            appearance: none;
+            background-image: linear-gradient(45deg, transparent 50%, var(--gold) 50%),
+                               linear-gradient(135deg, var(--gold) 50%, transparent 50%);
+            background-position: calc(100% - 18px) center, calc(100% - 13px) center;
+            background-size: 5px 5px, 5px 5px;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+ 
+        select:focus-visible,
+        input:focus-visible {
+            outline: none;
+            border-color: var(--gold);
+        }
+ 
+        input::placeholder {
+            color: var(--text-muted);
+        }
+ 
+        .separador {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+            margin: -2px 0;
+        }
+ 
+        @media (prefers-reduced-motion: no-preference) {
+            select, input {
+                transition: border-color 0.15s ease;
+            }
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+    <h1>Cambio de Divisas</h1>
+    <p>Convierte entre diferentes monedas.</p>
+    
+    <div id="divisas-container">
+        <select id="tabla-divisas">
+            <option value="">Selecciona una divisa</option>
+        </select>
+
+        <select id="tabla-comparar">
+            <option value="">Selecciona una divisa</option>
+        </select>
+
+        <input type="number" id="cantidad" placeholder="Cantidad">
+
+    </div>
+
+
+    <script>
+        async function TraerDivisas() {
+            const resultado = await fetch("https://api.cambio-uruguay.com");
+            if (!resultado.ok) {
+                throw new Error("Error al traer las divisas");
+            }
+            const data = await resultado.json();
+            return data;
+        }
+
+        async function MostrarDivisas() {
+            try {
+                const divisas = await TraerDivisas();
+                MostrarDivisasEnTabla(divisas);
+                console.log("Divisas obtenidas:", divisas);
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+        function MostrarDivisasEnTabla(divisas) {
+            const tabla = document.getElementById("tabla-divisas");
+            tabla.innerHTML = '<option value="">Selecciona una divisa</option>';
+
+            const tablaComparar = document.getElementById("tabla-comparar");
+            tablaComparar.innerHTML = '<option value="">Selecciona una divisa</option>';
+
+            let divisasUnicas = new Set();
+            for (const item of divisas) {
+                    divisasUnicas.add(item.code);
+            }
+
+            for (const divisa of divisasUnicas) {
+                const opcion = document.createElement("option");
+                opcion.value = divisa;
+                opcion.textContent = divisa;
+                tabla.appendChild(opcion);
+                tablaComparar.appendChild(opcion.cloneNode(true));
+            }
+        } 
+
+        MostrarDivisas();
+    </script>
+
+</body>
+</html>
