@@ -3,9 +3,7 @@ const selectPais = document.getElementById("pais");
 const selectDepto = document.getElementById("depto");
 const selectCiudad = document.getElementById("ciudad");
 
-// Es mejor unificarlos todos en un solo objeto 
-// para que sea más fácil de manejar y no tener que hacer un switch o if else.
-const ubicacion = {
+ const ubicacion = {
     Colombia: {
         "Antioquia": ["Medellin", "Envigado", "Itagui", "Bello"],
         "Cundinamarca": ["Bogota", "Soacha", "Zipaquira", "Chia"],
@@ -29,8 +27,6 @@ const ubicacion = {
     }
 };
 
-
-// Al cambiar el pais se llenan los departamentos correspondientes
 selectPais.addEventListener("change", () => {
     const pais = selectPais.value;
 
@@ -52,9 +48,6 @@ selectPais.addEventListener("change", () => {
     }
 });
 
-
-// Al cambiar el Departamento, se llenan las ciudades correspondientes
-// Esto era lo que se me dificultaba pero era casi lo mismo que el de arriba.
 selectDepto.addEventListener("change", () => {
     const pais = selectPais.value;
     const depto = selectDepto.value;
@@ -73,8 +66,6 @@ selectDepto.addEventListener("change", () => {
     }
 });
 
-
-// Esta parte es el envio del Formulario.
 formColombia.addEventListener("submit", (e) => {
     e.preventDefault();
     const nombre = document.getElementById("nombre").value;

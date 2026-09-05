@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Tareas - Manipulación del DOM</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 480px;
+            margin: 40px auto;
+        }
+
+        h1 {
+            color: #0B5E3C;
+            font-size: 22px;
+        }
+
+        #contenedor {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        #inputTarea {
+            flex: 1;
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        #btnAgregar {
+            padding: 8px 16px;
+            background: #0B5E3C;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        #listaTareas {
+            list-style: none;
+            padding: 0;
+        }
+
+        #listaTareas li {
+            background: #F2F7F4;
+            margin-bottom: 6px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Mi lista de tareas</h1>
+
+    <div id="contenedor">
+        <input 
+            type="text" 
+            id="inputTarea" 
+            placeholder="Escribe una tarea..."
+        >
+
+        <button id="btnAgregar">
+            Agregar
+        </button>
+    </div>
+
+    <ul id="listaTareas"></ul>
+
+    <script>
+        const input = document.querySelector("#inputTarea");
+        const boton = document.querySelector("#btnAgregar");
+        const lista = document.querySelector("#listaTareas");
+
+        function agregarTarea() {
+            const texto = input.value.trim();
+            if (texto === "") {
+                alert("Escribe una tarea antes de agregarla");
+                return;
+            }
+            const nuevaTarea = document.createElement("li");
+            nuevaTarea.textContent = texto;
+            lista.appendChild(nuevaTarea);
+            input.value = "";
+            input.focus();
+        }
+
+        boton.addEventListener("click", agregarTarea);
+
+        input.addEventListener("keydown", function(evento) {
+
+            if (evento.key === "Enter") {
+                agregarTarea();
+            }
+        });
+    </script>
+
+</body>
+</html>

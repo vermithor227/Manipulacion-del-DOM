@@ -1,0 +1,33 @@
+<input id="inputTarea" type="text" placeholder="Escribe una tarea...">
+<button id="btnAgregar">Agregar</button>
+<ol id="listaTareas"></ol>
+<script>
+    const input = document.querySelector("#inputTarea");
+    const btnAgregar = document.querySelector("#btnAgregar");
+    const listaTareas = document.querySelector("#listaTareas");
+
+    function agregarTarea() {
+        let valorInput = input.value;
+        let nuevaTarea = document.createElement("li");
+        nuevaTarea.textContent = valorInput;
+
+
+        let btnEliminar = document.createElement("button");
+        btnEliminar.textContent = "Eliminar";
+        nuevaTarea.appendChild(btnEliminar);
+
+        listaTareas.appendChild(nuevaTarea);
+        btnEliminar.addEventListener("click", function() {
+            listaTareas.removeChild(nuevaTarea);
+        });
+        input.value = "";
+    }
+    input.addEventListener("keyup", function(e) {
+        if (e.key === "Enter") {
+            agregarTarea();
+        }
+    });
+    btnAgregar.addEventListener("click", function() {
+        agregarTarea();
+    });
+</script>

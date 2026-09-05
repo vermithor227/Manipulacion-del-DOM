@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cambio de Divisas</title>
 
+    <!-- Estilos -->
     <style>
         :root {
             --bg: #0e1b2a;
@@ -129,6 +130,18 @@
                 transition: border-color 0.15s ease;
             }
         }
+        
+        button {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--text);
+            background: var(--gold);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+        }
     </style>
 
 </head>
@@ -149,13 +162,18 @@
         </select>
 
         <input type="number" id="cantidad" placeholder="Cantidad">
-
+        <button id="convertir">Convertir</button>
     </div>
 
 
+    <!-- JavaScript -->
     <script>
+
+        let divisas = [];
+        let listaDivisas = [];
+
         async function TraerDivisas() {
-            const resultado = await fetch("https://api.cambio-uruguay.com");
+            const resultado = await fetch("https://co.dolarapi.com/v1/cotizaciones");
             if (!resultado.ok) {
                 throw new Error("Error al traer las divisas");
             }
@@ -166,10 +184,12 @@
         async function MostrarDivisas() {
             try {
                 const divisas = await TraerDivisas();
+                listaDivisas = divisas;
                 MostrarDivisasEnTabla(divisas);
                 console.log("Divisas obtenidas:", divisas);
             } catch (error) {
                 console.error(error.message);
+                alert("No se pudieron cargar las divisas. Intenta de nuevo más tarde.")
             }
         }
 
@@ -180,19 +200,51 @@
             const tablaComparar = document.getElementById("tabla-comparar");
             tablaComparar.innerHTML = '<option value="">Selecciona una divisa</option>';
 
-            let divisasUnicas = new Set();
-            for (const item of divisas) {
-                    divisasUnicas.add(item.code);
-            }
-
-            for (const divisa of divisasUnicas) {
+            divisas.forEach((item, index) => {
                 const opcion = document.createElement("option");
-                opcion.value = divisa;
-                opcion.textContent = divisa;
+                opcion.value = index; // usamos el índice, no el nombre, para poder recuperar el objeto luego
+                opcion.textContent = `${item.nombre} (${item.moneda})`;
                 tabla.appendChild(opcion);
                 tablaComparar.appendChild(opcion.cloneNode(true));
-            }
+            });
         } 
+
+        function ConvertirDivisas() {
+            const indexOrigen = document.getElementById("tabla-divisas").value;
+            const indexDestino = document.getElementById("tabla-comparar").value;
+            const cantidadInput = document.getElementById("cantidad").value;
+
+            const cantidad = parseFloat(cantidadInput);
+
+            if (indexDestino === "" || indexOrigen === "" || isNaN(cantidad) || cantidad <= 0) {
+                alert("Por favor, selecciona ambas divisas y una cantidad válida.");
+                return;
+            }
+
+            const divisaOrigen = listaDivisas[indexOrigen];
+            const divisaDestino = listaDivisas[indexDestino];
+
+            const tasaOrigen = (divisaOrigen.compra + divisaOrigen.venta) / 2;
+            const tasaDestino = (divisaDestino.compra + divisaDestino.venta) / 2;
+
+            const cantidadEnpesos = cantidad * tasaOrigen;
+            const resultadoFinal = cantidadEnPesos / tasaDestino;
+            console.log(`${cantidad} ${divisaOrigen.moneda} equivalen a ${resultadoFinal.toFixed(2)} ${divisaDestino.moneda}`)
+
+            let contenedorResultado = document.getElementById("resultado");
+            if (!contenedorResultado) {
+                contenedorResultado = document.createElement("div");
+                contenedorResultado.id = "resultado";
+                contenedorResultado.style.marginTop = "20px";
+                document.getElementById("divisas-container").appendChild(contenedorResultado);
+            }
+            contenedorResultado.textContent = `${cantidad} ${divisaOrigen.moneda} equivalen a ${resultadoFinal.toFixed(2)} ${divisaDestino.moneda}`;
+        }
+
+        const botonConvertir = document.getElementById("convertir");
+        if (botonConvertir){
+            botonConvertir.addEventListener("click", ConvertirDivisas);
+        }
 
         MostrarDivisas();
     </script>
